@@ -66,39 +66,46 @@ div {
    
 
 <body>
-     <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>
-            <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
+                <script src="https://www.gstatic.com/firebasejs/5.5.4/firebase.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/5.5.4/firebase-firestore.js"></script>
            
-            <script>
+        
+<script>
   // Initialize Firebase
   var config = {
-    apiKey: "AIzaSyB268OF03nFI2zI5CSW1lJQBIAUN_k3ac8",
-    authDomain: "papers-bank-fd1e7.firebaseapp.com",
-    databaseURL: "https://papers-bank-fd1e7.firebaseio.com",
-    projectId: "papers-bank-fd1e7",
-    storageBucket: "papers-bank-fd1e7.appspot.com",
-    messagingSenderId: "604545244184"
+    apiKey: "AIzaSyAAmCRN4msV-Eicej7MkjpdFr6lHdRWcI0",
+    authDomain: "autopoolingapp.firebaseapp.com",
+    databaseURL: "https://autopoolingapp.firebaseio.com",
+    projectId: "autopoolingapp",
+    storageBucket: "autopoolingapp.appspot.com",
+    messagingSenderId: "481343063994"
   };
   firebase.initializeApp(config);
 </script>
 <script>
     function insertInDbase(name,mobile,destination,date,time,Ptype){
-  var firebaseRef=firebase.database().ref('Pool/'+Ptype);
-    firebaseRef.push({
+        var db = firebase.firestore();
+        db.collection(Ptype).doc().set({
     name:name,
     mobile:mobile,
     destination:destination,
     date:date,
-    time:time,
+    time:time
+})
+.then(function() {
+    console.log("Document successfully written!");
+})
+.catch(function(error) {
+    console.error("Error writing document: ", error);
 });
-    console.log("success");
     alert("pool created!! HAPPY JOURNEY");
+    document.getElementById("myForm").reset();
 }
 </script>
 <h3>START a pool!</h3>
 
 <div>
-  <form onsubmit="event.preventDefault(); callInsert();">
+  <form id="myForm" onsubmit="event.preventDefault(); callInsert();" >
     <!-- prevents the default function on submit button click //onClick does not work with Submit button as Submit button ..it kind of refreshes before calling onClick)-->
     <label for="name">Name</label>
     <input type="text" id="name" placeholder="Your name.." required>
